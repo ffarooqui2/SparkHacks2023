@@ -122,7 +122,7 @@
         .alert-box {
             width: 400px;
             height: 200px;
-            background-color: white;
+            background-color: rgb(122, 104, 118);
             border: 1px solid #ccc;
             border-radius: 10px;
             flex: 0 0 calc(100% / 3);
@@ -138,6 +138,10 @@
             animation-duration: 0.5s;
             /* transform: translateY(-50px); */
             /* z-index: 1; */
+        }
+
+        .alert-box:nth-child(1) {
+            background-color: rgba(212, 98, 98, 0.755);
         }
 
         /* .alert-box:hover {
@@ -310,6 +314,42 @@
                 console.log(data);
                 let v = data;
                 object.push(data.current);
+                let childDiv = document.createElement("div");
+                childDiv.className = "alert-box";
+
+                let infoDiv = document.createElement("div");
+                infoDiv.className = "degree";
+                let label = document.createElement("label");
+                label.className = "alert-label"
+                let p = document.createElement("p");
+                p.className = "alert-p"
+                console.log(object);
+                if (F(object[0].temp) > 80) {
+                    label.innerHTML = "Current Temperature: Warning it is hot outside";
+                    p.innerHTML = "Please being a water bottle <br> " + `Humidity is ${object[0].humidity}`;
+                } else if (F(object[0].temp) < 80 && F(object[0].temp) > 50) {
+                    label.innerHTML = "Current Temperature: The Temperature is nice out";
+                    p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
+                        `Humidity is ${object[0].humidity}`;
+
+                } else if (F(object[0].temp) < 50 && F(object[0].temp) > 40) {
+                    label.innerHTML = "Current Temperature: The Temperature is ok";
+                    p.innerHTML =
+                        "The Temperature is ok, but watch out for rain <br> Could be windy bring a light sweater  <br> " +
+                        `Humidity is ${object[0].humidity}`;
+
+
+                } else if (F(object[0].temp) <= 40) {
+                    label.innerHTML = "The Temperature is not that good";
+                    p.innerHTML = "Watch out for snow and  <br> Wear a Jacket!!! <br> " +
+                        `Humidity is ${object[0].humidity}`;
+                }
+
+                infoDiv.appendChild(label);
+                infoDiv.appendChild(p);
+                childDiv.appendChild(infoDiv);
+
+                document.querySelector("#alert").appendChild(childDiv);
                 for (var i = 0; i < 9; i++) {
 
                     let hourlyData = v.hourly[i];
@@ -355,42 +395,13 @@
 
                     // Add the child div to the parent div
                     document.querySelector("#hourly-weather").appendChild(childDiv);
+
+
                 }
 
-                let childDiv = document.createElement("div");
-                childDiv.className = "alert-box";
-                let infoDiv = document.createElement("div");
-                infoDiv.className = "degree";
-                let label = document.createElement("label");
-                label.className = "alert-label"
-                let p = document.createElement("p");
-                p.className = "alert-p"
-                console.log(object);
-                if (F(object[0].temp) > 80) {
-                    label.innerHTML = "Warning it is hot outside";
-                    p.innerHTML = "Please being a water bottle <br> " + `Humidity is ${object[0].humidity}`;
-                } else if (F(object[0].temp) < 80 && F(object[0].temp) > 50) {
-                    label.innerHTML = "The Temperature is nice out";
-                    p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
-                        `Humidity is ${object[0].humidity}`;
-
-                } else if (F(object[0].temp) < 50 && F(object[0].temp) > 40) {
-                    label.innerHTML = "The Temperature is ok";
-                    p.innerHTML =
-                        "The Temperature is ok, but watch out for rain <br> Could be windy bring a light sweater  <br> " +
-                        `Humidity is ${object[0].humidity}`;
 
 
-                } else if (F(object[0].temp) <= 40) {
-                    label.innerHTML = "The Temperature is not that good";
-                    p.innerHTML = "Watch out for snow and  <br> Wear a Jacket!!! <br> " +
-                        `Humidity is ${object[0].humidity}`;
-                }
-
-                infoDiv.appendChild(label);
-                infoDiv.appendChild(p);
-                childDiv.appendChild(infoDiv);
-                document.querySelector("#alert").appendChild(childDiv);
+                //  document.querySelector("body").appendChild(hr);
 
 
 
