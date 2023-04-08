@@ -18,6 +18,7 @@
         /* Apply the custom font family to the body */
         body {
             font-family: 'CoolFont', sans-serif;
+            background-color: rgba(250, 50, 0, 0.679);
         }
 
         /* Apply bold font weight to the text */
@@ -29,6 +30,53 @@
         h1 {
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
+
+        #hourly-weather {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .hourly-weather-entry {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            padding: 8px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .hourly-weather-entry .degree {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .hourly-weather-entry .weather-img {
+            margin-bottom: 10px;
+        }
+
+        .hourly-weather-entry .weather-img img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .hourly-weather-entry .real-feel,
+        .hourly-weather-entry .humidity {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .hourly-weather-entry .real-feel::before,
+        .hourly-weather-entry .humidity::before {
+            content: "\2022";
+            margin-right: 5px;
+            font-size: 8px;
+            color: #999;
+        }
     </style>
 </head>
 
@@ -36,6 +84,7 @@
 
 <body>
     <h1>How is your day</h1>
+
     <div id="hourly-weather"></div>
 
     <script>
@@ -43,99 +92,71 @@
         // Get the parent div
         var parentDiv = document.querySelector("#hourly-weather");
 
-        // Loop through the hourly weather data and create child divs for each entry
-        // for (var i = 0; i < hourlyWeatherData.length; i++) {
-        //     var hourlyData = hourlyWeatherData[i];
-
-        //     // Create a child div for this hourly weather entry
-        //     var childDiv = document.createElement("div");
-        //     childDiv.className = "hourly-weather-entry";
-
-        //     // Add the weather data to the child div
-        //     var degreeDiv = document.createElement("div");
-        //     degreeDiv.className = "degree";
-        //     degreeDiv.innerHTML = hourlyData.degree;
-        //     childDiv.appendChild(degreeDiv);
-
-        //     var weatherImgDiv = document.createElement("div");
-        //     weatherImgDiv.className = "weather-img";
-        //     weatherImgDiv.innerHTML = "<img src='" + hourlyData.weatherImgUrl + "' alt='" + hourlyData.weatherDescription + "'>";
-        //     childDiv.appendChild(weatherImgDiv);
-
-        //     var realFeelDiv = document.createElement("div");
-        //     realFeelDiv.className = "real-feel";
-        //     realFeelDiv.innerHTML = "Real feel: " + hourlyData.realFeel;
-        //     childDiv.appendChild(realFeelDiv);
-
-        //     var humidityDiv = document.createElement("div");
-        //     humidityDiv.className = "humidity";
-        //     humidityDiv.innerHTML = "Humidity: " + hourlyData.humidity;
-        //     childDiv.appendChild(humidityDiv);
-
-        //     // Add the child div to the parent div
-        //     parentDiv.appendChild(childDiv);
-        // }
-        //  }
 
         let lat = 41.8719; // your latitude
         let lon = -87.6479; // your longitude
         let key = "2525271a48aee4b83064aa077f7f0e0f";
-        let url =
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${"daily"}&appid=${key}`;
-        // day,hour, picture temp realfeel, humidity,
-        // hourly then object .feels_like, humidity, .weather.description 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                // handle the response data
-                console.log(data);
-                for (var i = 0; i < 10; i++) {
-                    let hourlyData = data.hourly[i];
+        while (1) {
+            let url =
+                `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${"daily"}&appid=${key}`;
+            // day,hour, picture temp realfeel, humidity,
+            // hourly then object .feels_like, humidity, .weather.description 
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // handle the response data
+                    console.log(data);
+                    let v = data;
+
+                    for (var i = 0; i < 10; i++) {
+
+                        let hourlyData = v.hourly[i];
 
 
-                    // Create a child div for this hourly weather entry
-                    var childDiv = document.createElement("div");
-                    childDiv.className = "hourly-weather-entry";
+                        // Create a child div for this hourly weather entry
+                        let childDiv = document.createElement("div");
+                        childDiv.className = "hourly-weather-entry";
 
-                    // Add the weather data to the child div
-                    var degreeDiv = document.createElement("div");
-                    degreeDiv.className = "degree";
-                    // (K − 273.15) × 9/5 + 32 = °F
-                    let data = (parseInt(hourlyData.temp) - 273.15) * (9 / 5) + 32;
-                    degreeDiv.innerHTML = hourlyData.temp;
-                    childDiv.appendChild(degreeDiv);
+                        // Add the weather data to the child div
+                        let degreeDiv = document.createElement("div");
+                        degreeDiv.className = "degree";
+                        // (K − 273.15) × 9/5 + 32 = °F
+                        let data = (parseInt(hourlyData.temp) - 273.15) * (9 / 5) + 32;
+                        degreeDiv.innerHTML = parseInt(data);
+                        childDiv.appendChild(degreeDiv);
 
-                    var weatherImgDiv = document.createElement("div");
-                    weatherImgDiv.className = "weather-img";
+                        let weatherImgDiv = document.createElement("div");
+                        weatherImgDiv.className = "weather-img";
+                        if (data < 30) {
+                            weatherImgDiv.innerHTML = `<img src='./snow.png'>`;
+                        } else if (data >= 30 && data <= 60) {
+                            weatherImgDiv.innerHTML = `<img src='./cloudy.png'>`;
+                        } else {
+                            weatherImgDiv.innerHTML = `<img src='./sun.png'>`;
+                        }
+                        childDiv.appendChild(weatherImgDiv);
 
-                    if (data < 30) {
-                        weatherImgDiv.innerHTML = `<img src='" + ${"./snow.png"}>`
-                    } else if (data >= 30 && data <= 60) {
-                        weatherImgDiv.innerHTML = `<img src='" + ${"./cloudy.png"}>`
-                    } else {
-                        weatherImgDiv.innerHTML = `<img src='" + ${"./sun.png"}>`
+                        let realFeelDiv = document.createElement("div");
+                        realFeelDiv.className = "real-feel";
+                        let d = (parseInt(hourlyData.feels_like) - 273.15) * (9 / 5) + 32
+                        realFeelDiv.innerHTML = "Real feel: " + parseInt(d);
+                        childDiv.appendChild(realFeelDiv);
 
+                        let humidityDiv = document.createElement("div");
+                        humidityDiv.className = "humidity";
+                        humidityDiv.innerHTML = "Humidity: " + hourlyData.humidity;
+                        childDiv.appendChild(humidityDiv);
+
+                        // Add the child div to the parent div
+                        document.querySelector("#hourly-weather").appendChild(childDiv);
                     }
-                    childDiv.appendChild(weatherImgDiv);
-
-                    var realFeelDiv = document.createElement("div");
-                    realFeelDiv.className = "real-feel";
-                    realFeelDiv.innerHTML = "Real feel: " + hourlyData.feels_like;
-                    childDiv.appendChild(realFeelDiv);
-
-                    var humidityDiv = document.createElement("div");
-                    humidityDiv.className = "humidity";
-                    humidityDiv.innerHTML = "Humidity: " + hourlyData.humidity;
-                    childDiv.appendChild(humidityDiv);
-
-                    // Add the child div to the parent div
-                    document.querySelector("#hourly-weather").appendChild(childDiv);
-                }
-                //for(int i=)
-            })
-            .catch(error => {
-                // handle any errors
-            })
+                    //for(int i=)
+                })
+                .catch(error => {
+                    // handle any errors
+                    console.log(error);
+                })
+        }
     </script>
 
 
