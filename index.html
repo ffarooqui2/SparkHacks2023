@@ -42,10 +42,10 @@
             color: white;
             /* set the font color to white */
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            position: absolute;
+            /* position: absolute; */
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            /* transform: translate(-50%, -50%); */
         }
 
 
@@ -252,7 +252,7 @@
             p.className = "alert-p"
             let label1 = document.createElement("label");
             label1.className = "alert-label";
-            if (F(object.temp) < 80 && F(object.temp) > 50) {
+            if (F(object.temp) >= 80) {
                 let speech = `Alert Alert`;
                 let utterance = new SpeechSynthesisUtterance(speech);
                 let synth = window.speechSynthesis;
@@ -260,21 +260,33 @@
                 utterance.voice = synth.getVoices()[9];
                 speechSynthesis.speak(utterance);
 
-                label1.innerHTML = `In ${i} hours <br>`;
-                label.innerHTML = "The Temperature is nice out";
-                p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
+                label1.innerHTML = `In ${i+1} hours <br>`;
+                label.innerHTML = "The Temperature super hot";
+                p.innerHTML = "Go get Some Ice Cream <br> " +
                     `Humidity is ${object.humidity}`;
-            } else if (F(object.temp) < 30) {
+                infoDiv.appendChild(label1);
+                infoDiv.appendChild(label);
+                infoDiv.appendChild(p);
+
+                childDiv.appendChild(infoDiv);
+                document.querySelector("#alert").appendChild(childDiv);
+            } else if (F(object.temp) <= 30) {
+                let speech = `Alert Alert`;
+                let utterance = new SpeechSynthesisUtterance(speech);
+                let synth = window.speechSynthesis;
+                utterance.voice = synth.getVoices()[9];
+                speechSynthesis.speak(utterance);
                 label.innerHTML = "The Temperature is not that good";
                 p.innerHTML = "Watch out for snow and  <br> Wear a Jacket!!! <br> " +
                     `Humidity is ${object[0].humidity}`;
-            }
-            infoDiv.appendChild(label1);
-            infoDiv.appendChild(label);
-            infoDiv.appendChild(p);
+                infoDiv.appendChild(label1);
+                infoDiv.appendChild(label);
+                infoDiv.appendChild(p);
 
-            childDiv.appendChild(infoDiv);
-            document.querySelector("#alert").appendChild(childDiv);
+                childDiv.appendChild(infoDiv);
+                document.querySelector("#alert").appendChild(childDiv);
+            }
+
         }
         // function displayHourlyWeather() {
         // Get the parent div
@@ -297,7 +309,7 @@
                 console.log(data);
                 let v = data;
                 object.push(data.current);
-                for (var i = 0; i < 10; i++) {
+                for (var i = 0; i < 9; i++) {
 
                     let hourlyData = v.hourly[i];
 
