@@ -91,11 +91,13 @@
 
         }
 
-        .alert {
+        #alert {
             display: flex;
-            flex-direction: column-reverse;
-            position: relative;
+            flex-wrap: wrap;
+
         }
+
+
 
         .alert-box {
             width: 400px;
@@ -103,33 +105,29 @@
             background-color: white;
             border: 1px solid #ccc;
             border-radius: 10px;
+            flex: 0 0 calc(100% / 3);
+            /* adjust this value based on the desired number of boxes per row */
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
             display: flex;
-
             justify-content: center;
             align-items: center;
             flex-direction: column;
             padding: 20px;
             margin: 20px;
-            /* position: absolute; */
-            /* top: -100px; */
-            /* start position above the screen */
-            position: fixed;
-            bottom: 0;
             animation-name: drop-down;
             animation-duration: 0.5s;
-            transform: translateY(-50px);
-            z-index: 1;
+            /* transform: translateY(-50px); */
+            /* z-index: 1; */
         }
 
-        .alert-box:hover {
+        /* .alert-box:hover {
             transform: translateY(-200px);
             z-index: 1;
         }
 
         .alert:not(:last-child) {
             margin-bottom: -70px;
-        }
+        } */
 
         .alert-label {
             font-size: 24px;
@@ -150,7 +148,7 @@
         } */
 
         .alert-box+.alert-box {
-            top: 300px;
+            align-items: center;
         }
 
         @keyframes drop-down {
@@ -186,15 +184,46 @@
 
 
 <body>
-    <h1>How is your day</h1>
+    <h1>Uic Flames</h1>
     <div id="hourly-weather"></div>
 
     <div id="alert"></div>
+    <!-- more hourly-weather-entry divs for other hours -->
+    </div>
+
 
 
     <script>
         function F(data) {
             return (parseInt(data) - 273.15) * (9 / 5) + 32;
+        }
+
+        function make_elem(object) {
+            let childDiv = document.createElement("div");
+            childDiv.className = "alert-box";
+            let infoDiv = document.createElement("div");
+            infoDiv.className = "degree";
+            let label = document.createElement("label");
+            label.className = "alert-label"
+            let p = document.createElement("p");
+            p.className = "alert-p"
+            let label1 = document.createElement("label");
+            label1.className = "alert-label";
+            if (F(object[0].temp) < 80 && F(object[0].temp) > 50) {
+                label1.innerHTML =
+                    label.innerHTML = "The Temperature is nice out";
+                p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
+                    `Humidity is ${object[0].humidity}`;
+            } else if (F(object[0].temp) < 30) {
+                label.innerHTML = "The Temperature is not that good";
+                p.innerHTML = "Watch out for snow and  <br> Wear a Jacket!!! <br> " +
+                    `Humidity is ${object[0].humidity}`;
+            }
+
+            infoDiv.appendChild(label);
+            infoDiv.appendChild(p);
+            childDiv.appendChild(infoDiv);
+            document.querySelector("#alert").appendChild(childDiv);
         }
         // function displayHourlyWeather() {
         // Get the parent div
@@ -261,42 +290,42 @@
                     // Add the child div to the parent div
                     document.querySelector("#hourly-weather").appendChild(childDiv);
                 }
-                for (var i = 0; i <= 2; i++) {
-                    let childDiv = document.createElement("div");
-                    childDiv.className = "alert-box";
-                    let infoDiv = document.createElement("div");
-                    infoDiv.className = "degree";
-                    let label = document.createElement("label");
-                    label.className = "alert-label"
-                    let p = document.createElement("p");
-                    p.className = "alert-p"
-                    console.log(object);
-                    if (F(object[0].temp) > 80) {
-                        label.innerHTML = "Warning it is hot outside";
-                        p.innerHTML = "Please being a water bottle <br> " + `Humidity is ${object[0].humidity}`;
-                    } else if (F(object[0].temp) < 80 && F(object[0].temp) > 50) {
-                        label.innerHTML = "The Temperature is nice out";
-                        p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
-                            `Humidity is ${object[0].humidity}`;
 
-                    } else if (F(object[0].temp) < 50 && F(object[0].temp) > 40) {
-                        label.innerHTML = "The Temperature is ok";
-                        p.innerHTML =
-                            "The Temperature is ok, but watch out for rain <br> Could be windy bring a light sweater  <br> " +
-                            `Humidity is ${object[0].humidity}`;
+                let childDiv = document.createElement("div");
+                childDiv.className = "alert-box";
+                let infoDiv = document.createElement("div");
+                infoDiv.className = "degree";
+                let label = document.createElement("label");
+                label.className = "alert-label"
+                let p = document.createElement("p");
+                p.className = "alert-p"
+                console.log(object);
+                if (F(object[0].temp) > 80) {
+                    label.innerHTML = "Warning it is hot outside";
+                    p.innerHTML = "Please being a water bottle <br> " + `Humidity is ${object[0].humidity}`;
+                } else if (F(object[0].temp) < 80 && F(object[0].temp) > 50) {
+                    label.innerHTML = "The Temperature is nice out";
+                    p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
+                        `Humidity is ${object[0].humidity}`;
+
+                } else if (F(object[0].temp) < 50 && F(object[0].temp) > 40) {
+                    label.innerHTML = "The Temperature is ok";
+                    p.innerHTML =
+                        "The Temperature is ok, but watch out for rain <br> Could be windy bring a light sweater  <br> " +
+                        `Humidity is ${object[0].humidity}`;
 
 
-                    } else if (F(object[0].temp) <= 40) {
-                        label.innerHTML = "The Temperature is not that good";
-                        p.innerHTML = "Watch out for snow and  <br> Wear a Jacket!!! <br> " +
-                            `Humidity is ${object[0].humidity}`;
-                    }
-
-                    infoDiv.appendChild(label);
-                    infoDiv.appendChild(p);
-                    childDiv.appendChild(infoDiv);
-                    document.querySelector("#alert").appendChild(childDiv);
+                } else if (F(object[0].temp) <= 40) {
+                    label.innerHTML = "The Temperature is not that good";
+                    p.innerHTML = "Watch out for snow and  <br> Wear a Jacket!!! <br> " +
+                        `Humidity is ${object[0].humidity}`;
                 }
+
+                infoDiv.appendChild(label);
+                infoDiv.appendChild(p);
+                childDiv.appendChild(infoDiv);
+                document.querySelector("#alert").appendChild(childDiv);
+
 
 
                 //for(int i=)
@@ -305,6 +334,38 @@
                 // handle any errors
                 console.log(error);
             })
+
+        const slider = document.querySelector('.slider');
+        const cards = Array.from(document.querySelectorAll('.alert-box'));
+        const prevBtn = document.querySelector('.slider-btn-left');
+        const nextBtn = document.querySelector('.slider-btn-right');
+        let cardIndex = 0;
+        let translateX = 0;
+
+        prevBtn.addEventListener('click', () => {
+            if (cardIndex === 0) {
+                cardIndex = cards.length - 1;
+                translateX = -(cardIndex * slider.offsetWidth);
+            } else {
+                cardIndex--;
+                translateX += slider.offsetWidth;
+            }
+
+            slider.style.transform = `translateX(${translateX}px)`;
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (cardIndex === cards.length - 1) {
+                cardIndex = 0;
+                translateX = 0;
+            } else {
+                cardIndex++;
+                translateX -= slider.offsetWidth;
+            }
+
+            slider.style.transform = `translateX(${translateX}px)`;
+        });
+
         //   }
     </script>
 
