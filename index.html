@@ -41,7 +41,7 @@
     <script>
         // function displayHourlyWeather() {
         // Get the parent div
-        var parentDiv = document.getElementById("hourly-weather");
+        var parentDiv = document.querySelector("#hourly-weather");
 
         // Loop through the hourly weather data and create child divs for each entry
         // for (var i = 0; i < hourlyWeatherData.length; i++) {
@@ -100,14 +100,23 @@
                     // Add the weather data to the child div
                     var degreeDiv = document.createElement("div");
                     degreeDiv.className = "degree";
+                    // (K − 273.15) × 9/5 + 32 = °F
+                    let data = (parseInt(hourlyData.temp) - 273.15) * (9 / 5) + 32;
                     degreeDiv.innerHTML = hourlyData.temp;
                     childDiv.appendChild(degreeDiv);
 
                     var weatherImgDiv = document.createElement("div");
                     weatherImgDiv.className = "weather-img";
 
-                    // weatherImgDiv.innerHTML = `<img src='" + ${}>`
-                    // childDiv.appendChild(weatherImgDiv);
+                    if (data < 30) {
+                        weatherImgDiv.innerHTML = `<img src='" + ${"./snow.png"}>`
+                    } else if (data >= 30 && data <= 60) {
+                        weatherImgDiv.innerHTML = `<img src='" + ${"./cloudy.png"}>`
+                    } else {
+                        weatherImgDiv.innerHTML = `<img src='" + ${"./sun.png"}>`
+
+                    }
+                    childDiv.appendChild(weatherImgDiv);
 
                     var realFeelDiv = document.createElement("div");
                     realFeelDiv.className = "real-feel";
@@ -120,7 +129,7 @@
                     childDiv.appendChild(humidityDiv);
 
                     // Add the child div to the parent div
-                    parentDiv.appendChild(childDiv);
+                    document.querySelector("#hourly-weather").appendChild(childDiv);
                 }
                 //for(int i=)
             })
