@@ -1,0 +1,47 @@
+#hourly-weather {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .hourly-weather-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hourly-weather-entry .degree {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .hourly-weather-entry .weather-img {
+    margin-bottom: 10px;
+  }
+  
+  .hourly-weather-entry .weather-img img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .hourly-weather-entry .real-feel,
+  .hourly-weather-entry .humidity {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .hourly-weather-entry .real-feel::before,
+  .hourly-weather-entry .humidity::before {
+    content: "\2022";
+    margin-right: 5px;
+    font-size: 8px;
+    color: #999;
+  }
+  
