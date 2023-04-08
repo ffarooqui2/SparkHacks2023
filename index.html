@@ -38,15 +38,27 @@
             margin-top: 20px;
         }
 
+        /* .hourly-weather-entry {} */
+
         .hourly-weather-entry {
+            animation: wave 2s infinite;
+            transition: all 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 10px;
             padding: 8px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(45, 133, 248, 0.926);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2.9px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+
+        }
+
+        .hourly-weather-entry:hover {
+            transform: translateY(-10px);
         }
 
         .hourly-weather-entry .degree {
@@ -67,7 +79,7 @@
         .hourly-weather-entry .real-feel,
         .hourly-weather-entry .humidity {
             font-size: 14px;
-            color: #999;
+            color: #f8f7f7e0;
         }
 
         .hourly-weather-entry .real-feel::before,
@@ -76,6 +88,76 @@
             margin-right: 5px;
             font-size: 8px;
             color: #999;
+
+        }
+
+        .alert-container {
+            position: relative;
+            height: 100vh;
+        }
+
+        .alert-box {
+            width: 400px;
+            height: 200px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            margin: 20px;
+            /* position: absolute; */
+            /* top: -100px; */
+            /* start position above the screen */
+            position: fixed;
+            bottom: 0;
+            animation-name: drop-down;
+            animation-duration: 0.5s;
+        }
+
+        .alert-label {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .alert-p {
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        @keyframes drop-down {
+            from {
+                transform: translateY(-100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateY(0);
+            }
+
+            25% {
+                transform: translateY(-10px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -84,79 +166,124 @@
 
 <body>
     <h1>How is your day</h1>
-
     <div id="hourly-weather"></div>
+    <div class="alert-container">
+        <div id="alert"></div>
+    </div>
 
     <script>
+        function F(data) {
+            return (parseInt(data) - 273.15) * (9 / 5) + 32;
+        }
         // function displayHourlyWeather() {
         // Get the parent div
         var parentDiv = document.querySelector("#hourly-weather");
-
+        let object = [];
 
         let lat = 41.8719; // your latitude
         let lon = -87.6479; // your longitude
         let key = "2525271a48aee4b83064aa077f7f0e0f";
-        while (1) {
-            let url =
-                `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${"daily"}&appid=${key}`;
-            // day,hour, picture temp realfeel, humidity,
-            // hourly then object .feels_like, humidity, .weather.description 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // handle the response data
-                    console.log(data);
-                    let v = data;
+        let other = [];
+        // while (1) {
+        let url =
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${"daily"}&appid=${key}`;
+        // day,hour, picture temp realfeel, humidity,
+        // hourly then object .feels_like, humidity, .weather.description 
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // handle the response data
+                console.log(data);
+                let v = data;
+                object.push(data.current);
+                for (var i = 0; i < 10; i++) {
 
-                    for (var i = 0; i < 10; i++) {
-
-                        let hourlyData = v.hourly[i];
+                    let hourlyData = v.hourly[i];
 
 
-                        // Create a child div for this hourly weather entry
-                        let childDiv = document.createElement("div");
-                        childDiv.className = "hourly-weather-entry";
+                    // Create a child div for this hourly weather entry
+                    let childDiv = document.createElement("div");
+                    childDiv.className = "hourly-weather-entry";
 
-                        // Add the weather data to the child div
-                        let degreeDiv = document.createElement("div");
-                        degreeDiv.className = "degree";
-                        // (K − 273.15) × 9/5 + 32 = °F
-                        let data = (parseInt(hourlyData.temp) - 273.15) * (9 / 5) + 32;
-                        degreeDiv.innerHTML = parseInt(data);
-                        childDiv.appendChild(degreeDiv);
+                    // Add the weather data to the child div
+                    let degreeDiv = document.createElement("div");
+                    degreeDiv.className = "degree";
+                    // (K − 273.15) × 9/5 + 32 = °F
+                    let data = (parseInt(hourlyData.temp) - 273.15) * (9 / 5) + 32;
 
-                        let weatherImgDiv = document.createElement("div");
-                        weatherImgDiv.className = "weather-img";
-                        if (data < 30) {
-                            weatherImgDiv.innerHTML = `<img src='./snow.png'>`;
-                        } else if (data >= 30 && data <= 60) {
-                            weatherImgDiv.innerHTML = `<img src='./cloudy.png'>`;
-                        } else {
-                            weatherImgDiv.innerHTML = `<img src='./sun.png'>`;
-                        }
-                        childDiv.appendChild(weatherImgDiv);
 
-                        let realFeelDiv = document.createElement("div");
-                        realFeelDiv.className = "real-feel";
-                        let d = (parseInt(hourlyData.feels_like) - 273.15) * (9 / 5) + 32
-                        realFeelDiv.innerHTML = "Real feel: " + parseInt(d);
-                        childDiv.appendChild(realFeelDiv);
+                    degreeDiv.innerHTML = parseInt(data);
+                    childDiv.appendChild(degreeDiv);
 
-                        let humidityDiv = document.createElement("div");
-                        humidityDiv.className = "humidity";
-                        humidityDiv.innerHTML = "Humidity: " + hourlyData.humidity;
-                        childDiv.appendChild(humidityDiv);
-
-                        // Add the child div to the parent div
-                        document.querySelector("#hourly-weather").appendChild(childDiv);
+                    let weatherImgDiv = document.createElement("div");
+                    weatherImgDiv.className = "weather-img";
+                    if (data < 30) {
+                        weatherImgDiv.innerHTML = `<img src='./snow.png'>`;
+                    } else if (data >= 30 && data <= 60) {
+                        weatherImgDiv.innerHTML = `<img src='./cloudy.png'>`;
+                    } else {
+                        weatherImgDiv.innerHTML = `<img src='./sun.png'>`;
                     }
-                    //for(int i=)
-                })
-                .catch(error => {
-                    // handle any errors
-                    console.log(error);
-                })
-        }
+                    childDiv.appendChild(weatherImgDiv);
+
+                    let realFeelDiv = document.createElement("div");
+                    realFeelDiv.className = "real-feel";
+                    let d = (parseInt(hourlyData.feels_like) - 273.15) * (9 / 5) + 32
+                    realFeelDiv.innerHTML = "Real feel: " + parseInt(d);
+                    childDiv.appendChild(realFeelDiv);
+
+                    let humidityDiv = document.createElement("div");
+                    humidityDiv.className = "humidity";
+                    humidityDiv.innerHTML = "Humidity: " + hourlyData.humidity;
+                    childDiv.appendChild(humidityDiv);
+
+                    // Add the child div to the parent div
+                    document.querySelector("#hourly-weather").appendChild(childDiv);
+                }
+
+                let childDiv = document.createElement("div");
+                childDiv.className = "alert-box";
+                let infoDiv = document.createElement("div");
+                infoDiv.className = "degree";
+                let label = document.createElement("label");
+                label.className = "alert-label"
+                let p = document.createElement("p");
+                p.className = "alert-p"
+                console.log(object);
+                if (F(object[0].temp) > 80) {
+                    label.innerHTML = "Warning it is hot outside";
+                    p.innerHTML = "Please being a water bottle <br> " + `Humidity is ${object[0].humidity}`;
+                } else if (F(object[0].temp) < 80 && F(object[0].temp) > 50) {
+                    label.innerHTML = "The Temperature is nice out";
+                    p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
+                        `Humidity is ${object[0].humidity}`;
+
+                } else if (F(object[0].temp) < 50 && F(object[0].temp) > 40) {
+                    label.innerHTML = "The Temperature is ok";
+                    p.innerHTML =
+                        "The Temperature is ok, but watch out for rain <br> Could be windy bring a light sweater  <br> " +
+                        `Humidity is ${object[0].humidity}`;
+
+
+                } else if (F(object[0].temp) <= 40) {
+                    label.innerHTML = "The Temperature is not that good";
+                    p.innerHTML = "Watch out for snow and  <br> Wear a Jacket!!! <br> " +
+                        `Humidity is ${object[0].humidity}`;
+                }
+
+                infoDiv.appendChild(label);
+                infoDiv.appendChild(p);
+                childDiv.appendChild(infoDiv);
+                document.querySelector("#alert").appendChild(childDiv);
+
+
+                //for(int i=)
+            })
+            .catch(error => {
+                // handle any errors
+                console.log(error);
+            })
+        //   }
     </script>
 
 
