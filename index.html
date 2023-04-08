@@ -178,12 +178,36 @@
                 transform: translateY(0);
             }
         }
+
+        /* Style for background video */
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
+        /* Style to overlay content over the video */
+        body {
+            position: relative;
+            font-family: 'CoolFont', sans-serif;
+            background-color: rgba(250, 50, 0, 0.679);
+            z-index: 1;
+        }
+
     </style>
 </head>
 
 
 
 <body>
+    <video autoplay muted loop id="background-video">
+        <source src="clouds-16163.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <h1>Uic Flames</h1>
     <div id="hourly-weather"></div>
 
