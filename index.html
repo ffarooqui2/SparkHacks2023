@@ -36,6 +36,7 @@
 
         h1 {
             font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
             font-size: 100px;
             /* adjust the font size */
             font-weight: bold;
@@ -188,6 +189,23 @@
             z-index: 1;
         }
 
+        @media (min-aspect-ratio: 16/9){
+            .back-video{
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        #logo {
+            position: absolute;
+            top: 5px; /* Adjust as needed */
+            left: 5px; /* Adjust as needed */
+            width: 225px; /* Adjust the logo width as needed */
+            height: auto; /* Maintain the aspect ratio of the logo */
+            z-index: 1000; /* Ensure the logo stays above other elements */
+            border-radius: 4px; /* Add a slight border radius for a modern look */
+        }
+
         .alert-box+.alert-box {
             align-items: center;
         }
@@ -225,6 +243,7 @@
 
 
 <body>
+    <img src="Blaze Alert Logo.png" alt="Logo" id="logo">
     <video autoplay muted loop id="background-video">
         <source src="clouds-16163.mp4" type="video/mp4">
         Your browser does not support the video tag.
