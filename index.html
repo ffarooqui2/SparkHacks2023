@@ -3,6 +3,7 @@
 
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
 
     <meta charset="UTF-8">
@@ -63,15 +64,15 @@
 
         .hourly-weather-entry {
             animation: wave 2s infinite;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.5s ease-in-out;
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 10px;
             padding: 8px;
-            background: rgba(45, 133, 248, 0.926);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, rgba(45, 133, 248, 0.926), rgba(30, 215, 191, 0.926)); /* Add gradient background */
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), 0 0 20px rgba(45, 133, 248, 0.5); /* Add glow effect */
             backdrop-filter: blur(2.9px);
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -86,6 +87,7 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
+            color: white;
         }
 
         .hourly-weather-entry .weather-img {
@@ -99,7 +101,10 @@
 
         .hourly-weather-entry .real-feel,
         .hourly-weather-entry .humidity {
-            font-size: 14px;
+            font-family: 'Roboto', sans-serif; /* Add a modern font-family */
+            font-size: 16px; /* Adjust font-size */
+            font-weight: 500; /* Adjust font-weight */
+            line-height: 1.5; /* Adjust line-height */
             color: #f8f7f7e0;
         }
 
@@ -124,10 +129,8 @@
             width: 400px;
             height: 200px;
             background-color: rgb(122, 104, 118);
-            border: 1px solid #ccc;
-            border-radius: 10px;
+            border-radius: 20px; /* Increase the border-radius */
             flex: 0 0 calc(100% / 3);
-            /* adjust this value based on the desired number of boxes per row */
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
             display: flex;
             justify-content: center;
@@ -137,12 +140,36 @@
             margin: 20px;
             animation-name: drop-down;
             animation-duration: 0.5s;
-            /* transform: translateY(-50px); */
-            /* z-index: 1; */
+            position: relative;
         }
 
+        .alert-box::before,
+        .alert-box::after {
+            content: "";
+            position: absolute;
+            inset: -0.5rem;
+            z-index: -1;
+            background: conic-gradient(from var(--gradient-angle), blue, red, blue);
+            border-radius: inherit;
+            animation: rotation 2s linear infinite;
+        }
+
+        .alert-box::after {
+            filter: blur(8px);
+        }
+
+        @keyframes rotation {
+            0% {
+                --gradient-angle: 0deg;
+            }
+            100% {
+                --gradient-angle: 360deg;
+            } 
+        }
+
+
         .alert-box:nth-child(1) {
-            background-color: rgba(212, 98, 98, 0.755);
+            background-color: rgba(100, 100, 100, 0.5);;
         }
 
         /* .alert-box:hover {
@@ -227,21 +254,12 @@
         }
 
         @keyframes wave {
-            0% {
-                transform: translateY(0);
-            }
-
-            25% {
-                transform: translateY(-10px);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
         }
     </style>
 </head>
