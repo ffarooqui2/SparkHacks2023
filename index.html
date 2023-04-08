@@ -178,18 +178,36 @@
                 transform: translateY(0);
             }
         }
+
+        /* Style for background video */
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
+        /* Style to overlay content over the video */
+        body {
+            position: relative;
+            font-family: 'CoolFont', sans-serif;
+            background-color: rgba(250, 50, 0, 0.679);
+            z-index: 1;
+        }
     </style>
 </head>
 
 
 
 <body>
-    <h1>BlazeAlert</h1>
     <h1>Uic Flames</h1>
     <div id="hourly-weather"></div>
 
     <div id="alert"></div>
     <!-- more hourly-weather-entry divs for other hours -->
+
     </div>
 
 
@@ -200,6 +218,7 @@
         }
 
         function make_elem(object, i) {
+
             let childDiv = document.createElement("div");
             childDiv.className = "alert-box";
             let infoDiv = document.createElement("div");
@@ -211,6 +230,13 @@
             let label1 = document.createElement("label");
             label1.className = "alert-label";
             if (F(object.temp) < 80 && F(object.temp) > 50) {
+                let speech = `Alert Alert`;
+                let utterance = new SpeechSynthesisUtterance(speech);
+                let synth = window.speechSynthesis;
+
+                utterance.voice = synth.getVoices()[9];
+                speechSynthesis.speak(utterance);
+
                 label1.innerHTML = `In ${i} hours <br>`;
                 label.innerHTML = "The Temperature is nice out";
                 p.innerHTML = "The Temperature is nice <br> Go on a walk <br> " +
@@ -339,36 +365,9 @@
                 console.log(error);
             })
 
-        const slider = document.querySelector('.slider');
-        const cards = Array.from(document.querySelectorAll('.alert-box'));
-        const prevBtn = document.querySelector('.slider-btn-left');
-        const nextBtn = document.querySelector('.slider-btn-right');
-        let cardIndex = 0;
-        let translateX = 0;
 
-        prevBtn.addEventListener('click', () => {
-            if (cardIndex === 0) {
-                cardIndex = cards.length - 1;
-                translateX = -(cardIndex * slider.offsetWidth);
-            } else {
-                cardIndex--;
-                translateX += slider.offsetWidth;
-            }
 
-            slider.style.transform = `translateX(${translateX}px)`;
-        });
 
-        nextBtn.addEventListener('click', () => {
-            if (cardIndex === cards.length - 1) {
-                cardIndex = 0;
-                translateX = 0;
-            } else {
-                cardIndex++;
-                translateX -= slider.offsetWidth;
-            }
-
-            slider.style.transform = `translateX(${translateX}px)`;
-        });
 
         //   }
     </script>
