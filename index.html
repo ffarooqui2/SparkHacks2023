@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +33,22 @@
         h1 {
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 100px;
+            /* adjust the font size */
+            font-weight: bold;
+            color: white;
+            /* set the font color to white */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
 
         #hourly-weather {
             display: flex;
@@ -147,6 +166,23 @@
             transform: translateY(0);
         } */
 
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
+        /* Style to overlay content over the video */
+        body {
+            position: relative;
+            font-family: 'CoolFont', sans-serif;
+            background-color: rgba(250, 50, 0, 0.679);
+            z-index: 1;
+        }
+
         .alert-box+.alert-box {
             align-items: center;
         }
@@ -178,31 +214,18 @@
                 transform: translateY(0);
             }
         }
-
-        /* Style for background video */
-        #background-video {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -1;
-        }
-
-        /* Style to overlay content over the video */
-        body {
-            position: relative;
-            font-family: 'CoolFont', sans-serif;
-            background-color: rgba(250, 50, 0, 0.679);
-            z-index: 1;
-        }
     </style>
 </head>
 
 
 
 <body>
-    <h1>Uic Flames</h1>
+    <video autoplay muted loop id="background-video">
+        <source src="clouds-16163.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <h1>UIC FLAMES</h1>
     <div id="hourly-weather"></div>
 
     <div id="alert"></div>
