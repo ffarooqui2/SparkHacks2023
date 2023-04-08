@@ -1,12 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackathon</title>
+    <title>Weather app</title>
+    <style>
+        /* Define a custom font family */
+        @font-face {
+            font-family: 'CoolFont';
+            src: url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+        }
+
+        /* Apply the custom font family to the body */
+        body {
+            font-family: 'CoolFont', sans-serif;
+        }
+
+        /* Apply bold font weight to the text */
+        h1 {
+            font-weight: bold;
+        }
+
+        /* Add some cool text shadow to the text */
+        h1 {
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
+
+
+
 <body>
-    
+    <h1>How is your day</h1>
+    <script>
+        let lat = 41.8719; // your latitude
+        let lon = -87.6479; // your longitude
+        let key = "2525271a48aee4b83064aa077f7f0e0f";
+        let url =
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${"daily"}&appid=${key}`;
+
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // handle the response data
+                console.log(data.current.clouds);
+            })
+            .catch(error => {
+                // handle any errors
+            })
+    </script>
+
+
+
 </body>
+
+
+
 </html>
