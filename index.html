@@ -36,6 +36,7 @@
 
         h1 {
             font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
             font-size: 100px;
             /* adjust the font size */
             font-weight: bold;
@@ -182,6 +183,13 @@
             font-family: 'CoolFont', sans-serif;
             background-color: rgba(250, 50, 0, 0.679);
             z-index: 1;
+        }
+
+        @media (min-aspect-ratio: 16/9){
+            .back-video{
+                width: 100%;
+                height: auto;
+            }
         }
 
         .alert-box+.alert-box {
