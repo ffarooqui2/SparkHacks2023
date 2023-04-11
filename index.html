@@ -31,9 +31,7 @@
         }
 
         /* Add some cool text shadow to the text */
-        h1 {
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        }
+
 
         h1 {
             font-family: 'Poppins', sans-serif;
@@ -43,7 +41,7 @@
             font-weight: bold;
             color: white;
             /* set the font color to white */
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+
             /* position: absolute; */
             top: 50%;
             left: 50%;
@@ -70,9 +68,11 @@
             align-items: center;
             margin: 10px;
             padding: 8px;
-            background: linear-gradient(135deg, rgba(45, 133, 248, 0.926), rgba(30, 215, 191, 0.926)); /* Add gradient background */
+            background: linear-gradient(135deg, rgba(45, 133, 248, 0.926), rgba(30, 215, 191, 0.926));
+            /* Add gradient background */
             border-radius: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), 0 0 20px rgba(45, 133, 248, 0.5); /* Add glow effect */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), 0 0 20px rgba(45, 133, 248, 0.5);
+            /* Add glow effect */
             backdrop-filter: blur(2.9px);
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -101,10 +101,14 @@
 
         .hourly-weather-entry .real-feel,
         .hourly-weather-entry .humidity {
-            font-family: 'Roboto', sans-serif; /* Add a modern font-family */
-            font-size: 16px; /* Adjust font-size */
-            font-weight: 500; /* Adjust font-weight */
-            line-height: 1.5; /* Adjust line-height */
+            font-family: 'Roboto', sans-serif;
+            /* Add a modern font-family */
+            font-size: 16px;
+            /* Adjust font-size */
+            font-weight: 500;
+            /* Adjust font-weight */
+            line-height: 1.5;
+            /* Adjust line-height */
             color: #f8f7f7e0;
         }
 
@@ -129,7 +133,8 @@
             width: 400px;
             height: 200px;
             background-color: rgb(122, 104, 118);
-            border-radius: 20px; /* Increase the border-radius */
+            border-radius: 20px;
+            /* Increase the border-radius */
             flex: 0 0 calc(100% / 3);
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
             display: flex;
@@ -162,14 +167,16 @@
             0% {
                 --gradient-angle: 0deg;
             }
+
             100% {
                 --gradient-angle: 360deg;
-            } 
+            }
         }
 
 
         .alert-box:nth-child(1) {
-            background-color: rgba(100, 100, 100, 0.5);;
+            background-color: rgba(100, 100, 100, 0.5);
+            ;
         }
 
         /* .alert-box:hover {
@@ -254,12 +261,15 @@
         }
 
         @keyframes wave {
-        0%, 100% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-10px);
-        }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
     </style>
 </head>
@@ -300,7 +310,7 @@
             p.className = "alert-p"
             let label1 = document.createElement("label");
             label1.className = "alert-label";
-            if (F(object.temp) >= 80) {
+            if (F(object.temp) >= 70) {
                 let speech = `Alert Alert`;
                 let utterance = new SpeechSynthesisUtterance(speech);
                 let synth = window.speechSynthesis;
@@ -370,7 +380,7 @@
                     let p = document.createElement("p");
                     p.className = "alert-p"
                     console.log(object);
-                    if (F(object[0].temp) > 80) {
+                    if (F(object[0].temp) > 70) {
                         label.innerHTML = "Current Temperature: Warning it is hot outside";
                         p.innerHTML = "Please being a water bottle <br> " + `Humidity is ${object[0].humidity}`;
                         document.querySelector("#image_back").src = "./trees-50727.mp4";
